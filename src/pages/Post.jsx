@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { posts, extractHeadings } from '../posts.js'
+import { Button } from '@/components/ui/button'
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/(^-|-$)/g, '')
@@ -24,32 +25,38 @@ export default function Post() {
 
   if (!post) {
     return (
-      <main className="post-page">
-        <div className="post-404">
-          <h1>404</h1>
-          <p>文章未找到</p>
-          <Link to="/blog" className="btn btn-primary">返回博客</Link>
+      <main className="page-enter mx-auto max-w-[720px] px-4 py-12 text-center">
+        <div className="py-16">
+          <h1 className="text-5xl font-bold text-[var(--fg)] mb-4">404</h1>
+          <p className="text-[var(--muted)] mb-6">文章未找到</p>
+          <Button asChild>
+            <Link to="/blog">返回博客</Link>
+          </Button>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="post-page">
-      <article className="post-content">
-        <header className="post-header">
-          <div className="post-breadcrumb">
-            <Link to="/blog">← 返回文章列表</Link>
+    <main className="page-enter mx-auto max-w-[720px] px-4 py-12">
+      <article>
+        <header className="mb-10">
+          <div className="mb-6">
+            <Link to="/blog" className="text-sm text-[var(--muted)] hover:text-[var(--fg)] transition-colors">
+              ← 返回文章列表
+            </Link>
           </div>
-          <h1>{post.title}</h1>
-          <div className="post-meta">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--fg)] mb-4">{post.title}</h1>
+          <div className="flex items-center gap-2 text-sm text-[var(--muted)] flex-wrap">
             <time>{post.date}</time>
-            <span className="post-meta-dot">·</span>
+            <span className="text-[var(--border)]">·</span>
             <span>{post.readingTime}</span>
             {post.tags.length > 0 && (
               <>
-                <span className="post-meta-dot">·</span>
-                {post.tags.map(t => <span key={t} className="tag">{t}</span>)}
+                <span className="text-[var(--border)]">·</span>
+                {post.tags.map(t => (
+                  <span key={t} className="inline-block rounded-full border border-[var(--border)] px-2.5 py-0.5 text-xs font-medium text-[var(--muted)]">{t}</span>
+                ))}
               </>
             )}
           </div>
@@ -91,19 +98,19 @@ export default function Post() {
         </div>
       </article>
 
-      <nav className="post-nav">
+      <nav className="mt-16 pt-8 border-t border-[var(--border)] flex justify-between gap-4">
         {prev ? (
-          <Link to={`/blog/${prev.slug}`} className="post-nav-link post-nav-prev">
-            <span className="post-nav-label">上一篇</span>
-            <span className="post-nav-title">{prev.title}</span>
+          <Link to={`/blog/${prev.slug}`} className="flex-1 p-4 rounded-lg border border-[var(--border)] hover:border-[var(--fg)] transition-colors no-underline">
+            <span className="block text-xs uppercase tracking-wider text-[var(--muted)] mb-1">上一篇</span>
+            <span className="block text-sm font-medium text-[var(--fg)]">{prev.title}</span>
           </Link>
-        ) : <div />}
+        ) : <div className="flex-1" />}
         {next ? (
-          <Link to={`/blog/${next.slug}`} className="post-nav-link post-nav-next">
-            <span className="post-nav-label">下一篇</span>
-            <span className="post-nav-title">{next.title}</span>
+          <Link to={`/blog/${next.slug}`} className="flex-1 p-4 rounded-lg border border-[var(--border)] hover:border-[var(--fg)] transition-colors text-right no-underline">
+            <span className="block text-xs uppercase tracking-wider text-[var(--muted)] mb-1">下一篇</span>
+            <span className="block text-sm font-medium text-[var(--fg)]">{next.title}</span>
           </Link>
-        ) : <div />}
+        ) : <div className="flex-1" />}
       </nav>
     </main>
   )
