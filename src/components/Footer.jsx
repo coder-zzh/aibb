@@ -13,16 +13,13 @@ const columns = [
     title: '关于',
     links: [
       { label: '关于我们', to: '/about' },
-      { label: '帮助中心', to: '/blog' },
-      { label: '服务条款', to: '/about' },
+      { label: '博客', to: '/blog' },
     ],
   },
   {
     title: '关注',
     links: [
       { label: 'GitHub', to: 'https://github.com/coder-zzh/aibb' },
-      { label: 'Twitter', to: '#' },
-      { label: '联系我们', to: '/about' },
     ],
   },
 ]
@@ -34,7 +31,7 @@ export default function Footer() {
         <div className="grid gap-8 sm:grid-cols-3">
           {columns.map(col => (
             <div key={col.title}>
-              <h4 className="text-xs font-semibold text-[var(--muted)] uppercase tracking-widest mb-4">
+              <h4 className="text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-widest mb-4">
                 {col.title}
               </h4>
               <ul className="space-y-2">
@@ -55,9 +52,9 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto max-w-5xl px-4 pt-6 border-t border-[var(--border)]">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--muted)]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--muted-foreground)]">
           <span>© 2026 aibb. All rights reserved.</span>
-          <span className="uppercase tracking-widest text-[var(--muted)] opacity-40">
+          <span className="uppercase tracking-widest text-[var(--muted-foreground)] opacity-40">
             从零开始，构建你的创业蓝图
           </span>
         </div>

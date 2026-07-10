@@ -1,23 +1,19 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 
 const navLinks = [
-  { to: '/', label: '首页', anchor: true },
-  { to: '/?section=community', label: '社区', hash: '#community' },
-  { to: '/?section=projects', label: '项目', hash: '#projects' },
-  { to: '/?section=features', label: '生态', hash: '#features' },
-  { to: '/about', label: '关于', anchor: false },
+  { to: '/', label: '首页' },
+  { to: '/?section=community', label: '社区', section: 'community' },
+  { to: '/?section=projects', label: '项目', section: 'projects' },
+  { to: '/?section=features', label: '生态', section: 'features' },
+  { to: '/about', label: '关于' },
 ]
-
-function scrollToSection(id) {
-  const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
-}
 
 export default function Nav() {
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
 
   function handleSearch(e) {
     e.preventDefault()
@@ -27,11 +23,16 @@ export default function Nav() {
     }
   }
 
-  function handleClick(hash, e) {
-    const onHome = window.location.pathname.replace(/\/+$/, '') === '/aibb' || window.location.pathname === '/aibb/'
-    if (hash && onHome) {
+  function handleSectionClick(section, e) {
+    const path = location.pathname.replace(/\/+$/, '').replace('/aibb', '')
+    if (path === '') {
       e.preventDefault()
-      scrollToSection(hash.replace('#', ''))
+      const params = new URLSearchParams(location.search)
+      if (params.get('section') !== section) {
+        window.history.replaceState(null, '', `?section=${section}`)
+      }
+      const el = document.getElementById(section)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -42,33 +43,38 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/92 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 h-14">
-        <Link to="/" className="font-bold text-lg tracking-tight text-[var(--fg)] shrink-0">
-          aibb
+        <Link to="/" className="shrink-0 group">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-lg font-bold tracking-tight text-[var(--fg)]">OPC</span>
+            <span className="hidden sm:inline text-xs font-medium text-[var(--muted-foreground)] tracking-wider">·</span>
+            <span className="text-xs font-medium text-[var(--muted-foreground)] group-hover:text-[var(--fg)] transition-colors">ASIA中国社区</span>
+          </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {navLinks.map(l => (
-            l.anchor || l.hash ? (
-              <a
+          {navLinks.map(l =>
+            l.section ? (
+              <Link
                 key={l.label}
-                href={l.hash || '/'}
-                onClick={(e) => handleClick(l.hash, e)}
-                className="text-[var(--muted)] hover:text-[var(--fg)] transition-colors"
+                to={l.to}
+                onClick={(e) => handleSectionClick(l.section, e)}
+                className="text-[var(--muted-foreground)] hover:text-[var(--fg)] transition-colors"
               >
                 {l.label}
-              </a>
+              </Link>
             ) : (
               <NavLink
                 key={l.label}
                 to={l.to}
+                end
                 className={({ isActive }) =>
-                  `transition-colors ${isActive ? 'text-[var(--fg)]' : 'text-[var(--muted)] hover:text-[var(--fg)]'}`
+                  `transition-colors ${isActive ? 'text-[var(--fg)]' : 'text-[var(--muted-foreground)] hover:text-[var(--fg)]'}`
                 }
               >
                 {l.label}
               </NavLink>
             )
-          ))}
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -84,7 +90,7 @@ export default function Nav() {
 
           <button
             onClick={toggleDark}
-            className="h-8 w-8 rounded-md border border-[var(--border)] text-xs text-[var(--muted)] hover:text-[var(--fg)] hover:border-[var(--fg)] transition-colors cursor-pointer"
+            className="h-8 w-8 rounded-md border border-[var(--border)] text-xs text-[var(--muted-foreground)] hover:text-[var(--fg)] hover:border-[var(--fg)] transition-colors cursor-pointer"
             aria-label="切换暗色模式"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 mx-auto">
@@ -95,23 +101,30 @@ export default function Nav() {
       </div>
 
       <div className="border-t border-[var(--border)] px-4 py-2 md:hidden">
-        <div className="flex gap-4 text-xs text-[var(--muted)]">
-          {navLinks.map(l => (
-            l.anchor || l.hash ? (
-              <a
+        <div className="flex gap-4 text-xs text-[var(--muted-foreground)]">
+          {navLinks.map(l =>
+            l.section ? (
+              <Link
                 key={l.label}
-                href={l.hash || '/'}
-                onClick={(e) => handleClick(l.hash, e)}
+                to={l.to}
+                onClick={(e) => handleSectionClick(l.section, e)}
                 className="hover:text-[var(--fg)] transition-colors"
               >
                 {l.label}
-              </a>
+              </Link>
             ) : (
-              <NavLink key={l.label} to={l.to} className={({ isActive }) =>
-                `transition-colors ${isActive ? 'text-[var(--fg)]' : 'hover:text-[var(--fg)]'}`
-              }>{l.label}</NavLink>
+              <NavLink
+                key={l.label}
+                to={l.to}
+                end
+                className={({ isActive }) =>
+                  `transition-colors ${isActive ? 'text-[var(--fg)]' : 'hover:text-[var(--fg)]'}`
+                }
+              >
+                {l.label}
+              </NavLink>
             )
-          ))}
+          )}
         </div>
       </div>
     </header>

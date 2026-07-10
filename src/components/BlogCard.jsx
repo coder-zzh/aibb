@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 export default function BlogCard({ slug, title, date, tags, readingTime, excerpt }) {
   return (
     <article className="py-4">
-      <div className="flex items-center gap-2 text-xs text-[var(--muted)] mb-1.5">
+      <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)] mb-1.5">
         <time>{date}</time>
         {tags.length > 0 && tags.map(t => (
           <Badge key={t} variant="outline" className="text-[11px] px-2 py-0">{t}</Badge>
@@ -17,7 +17,7 @@ export default function BlogCard({ slug, title, date, tags, readingTime, excerpt
           {title}
         </Link>
       </h2>
-      <p className="text-sm text-[var(--muted)] mt-1">{excerpt}</p>
+      <p className="text-sm text-[var(--muted-foreground)] mt-1">{excerpt}</p>
     </article>
   )
 }

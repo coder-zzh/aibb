@@ -26,15 +26,17 @@ export default function Features() {
     <section id="features" className="py-16 md:py-20">
       <div className="mx-auto max-w-5xl px-4">
         <h2 className="text-2xl font-bold text-[var(--fg)] mb-2">OPC 四大支撑</h2>
-        <p className="text-[var(--muted)] mb-10 max-w-lg">
+        <p className="text-[var(--muted-foreground)] mb-10 max-w-lg">
           社群、能力、工具、服务——四位一体，覆盖一人公司从 0 到 1 的全部需求。
         </p>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map(f => (
-            <article key={f.title} className="rounded-lg border border-[var(--border)] p-5">
-              <div className="mb-3 text-2xl">{f.icon}</div>
+            <article key={f.title} className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--surface)] text-xl">
+                {f.icon}
+              </div>
               <h3 className="font-semibold text-[var(--fg)] mb-2">{f.title}</h3>
-              <p className="text-sm text-[var(--muted)] leading-relaxed">{f.desc}</p>
+              <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{f.desc}</p>
             </article>
           ))}
         </div>

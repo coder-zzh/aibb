@@ -176,6 +176,38 @@ pre code { background: none; padding: 0; border: none; color: inherit; }
   .toc { display: none; }
 }
 
+/* geometric pattern helpers */
+.bg-dots {
+  background-image: radial-gradient(circle at 1px 1px, var(--fg) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+.bg-grid {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* card glow on hover */
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+
+/* smoother transitions */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, opacity, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+/* video embed container */
+.video-embed { position: relative; padding-bottom: 56.25%; height: 0; margin: 1.5rem 0; }
+.video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: var(--radius); }
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;
